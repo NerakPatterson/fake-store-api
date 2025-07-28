@@ -10,9 +10,10 @@ import EditProduct from './components/EditProduct';
  
 function App() {
    return (
-    <>
-      <NavigationBar />
+    
+      
       <Router>
+        <NavigationBar />
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/product" element={<ProductList />}/>
@@ -22,7 +23,6 @@ function App() {
            <Route path="/edit-product/:id" element={<EditProduct />} />
         </Routes>
       </Router>
-    </>
   
   );
 }
