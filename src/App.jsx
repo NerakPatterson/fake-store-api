@@ -18,7 +18,7 @@ function App() {
           <Route path="/product" element={<ProductList />}/>
           <Route path="/product/:id" element={<ProductDetails />}/>
           <Route path="/addproduct" element={<AddProduct/>}/>
-           <Route path="*" element={<h1>404 Not Found</h1>} />
+           {/* <Route path="*" element={<h1>404 Not Found</h1>} /> */}
            <Route path="/edit-product/:id" element={<EditProduct />} />
         </Routes>
       </Router>
