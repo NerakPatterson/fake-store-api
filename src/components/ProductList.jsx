@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
-
 
 function ProductList() {
   const [products, setProducts] = useState([]);
@@ -16,22 +14,18 @@ function ProductList() {
   const navigate = useNavigate();
 
   const handleDelete = async (id) => {
-  if (window.confirm('Are you sure you want to delete this product?')) {
-    try {
-      await axios.delete(`https://fakestoreapi.com/products/${id}`);
-      
-      // Show success message
-      alert('Product deleted successfully.');
-
-      // Redirect to product list
-      navigate('/product');
-    } catch (error) {
-      console.error('Failed to delete product:', error);
-      alert('Could not delete the product.');
+    if (window.confirm('Are you sure you want to delete this product?')) {
+      try {
+        await axios.delete(`https://fakestoreapi.com/products/${id}`);
+        alert('Product deleted successfully.');
+        // Refresh product list
+        setProducts(products.filter(product => product.id !== id));
+      } catch (error) {
+        console.error('Failed to delete product:', error);
+        alert('Could not delete the product.');
+      }
     }
-  }
-};
-
+  };
 
   useEffect(() => {
     axios.get('https://fakestoreapi.com/products')
@@ -59,16 +53,14 @@ function ProductList() {
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title className="fs-6 text-center">{product.title}</Card.Title>
                 <Card.Text className="text-center">${product.price}</Card.Text>
-                <Link to={`/product/${product.id}`} className="btn btn-info">View Details</Link>
-                
+
+                <div className="d-grid gap-2 mt-2">
+                  <Link to={`/product/${product.id}`} className="btn btn-info">View Details</Link>
+                  <Link to={`/edit-product/${product.id}`} className="btn btn-warning">Edit</Link>
+                  <Button variant="danger" onClick={() => handleDelete(product.id)}>Delete</Button>
+                </div>
               </Card.Body>
-              <Link to={`/edit-product/${product.id}`} className="w-100">
-                <Button variant="warning" size="sm" className="w-100">Edit</Button>
-                <Button variant="danger" size="sm" className="mt-3 w-100"
-              onClick={() => handleDelete(product.id)}> Delete </Button>
-              </Link>
-              </Card>
-              
+            </Card>
           </Col>
         ))}
       </Row>

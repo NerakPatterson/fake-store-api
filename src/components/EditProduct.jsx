@@ -12,6 +12,7 @@ function EditProduct() {
     price: ''
   });
   const [error, setError] = useState('');
+  
 
   useEffect(() => {
     axios.get(`https://fakestoreapi.com/products/${id}`)
@@ -79,6 +80,8 @@ function EditProduct() {
 
         <Button type="submit">Save Changes</Button>
       </Form>
+      <Button variant="secondary" className="mt-3" onClick={() => navigate('/product')}>Cancel</Button>
+    
     </Container>
   );
 }
